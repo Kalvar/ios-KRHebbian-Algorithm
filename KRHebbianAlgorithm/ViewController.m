@@ -1,23 +1,40 @@
-## What is it ?
+//
+//  ViewController.m
+//  KRHebbianAlgorithm
+//  
+//  Created by Kalvar ( ilovekalvar@gmail.com ) on 13/6/13.
+//  Copyright (c) 2013年 Kuo-Ming Lin. All rights reserved.
+//
 
-KRHebbian ( Hebbian ) is one of learning rules of adjusting weight in neural-network. If you wanna adjust the algorithms of neurl-network ( Ex : BPN ), that you can use this method to adjust the weight everytime.
+#import "ViewController.h"
+#import "KRHebbianAlgorithm.h"
 
-## How To Get Started
+@interface ViewController ()
 
-``` objective-c
+@end
+
+@implementation ViewController
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self runHebbian];
+	[self runHebbian];
+    
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 #pragma Hebbian Learning Rule
 -(void)runHebbian
 {
-    //Initial Weights ( W1 )
+    //神經元 1 權重（ X 向 ）( W1 )
     NSMutableArray *_weights1 = [NSMutableArray arrayWithObjects:@"0.5",@"0",@"-1", @"1", nil];
     NSMutableArray *_initialWeights = [NSMutableArray arrayWithObject:_weights1];
-    //Inputs ( X1 )
+    //輸入 X1 向量 ( Y 向 )
     NSMutableArray *_x1 = [NSMutableArray arrayWithObjects:@"0",@"1.5",@"-2", @"1", nil];
     //
     KRHebbianAlgorithm *_krHebbian = [[KRHebbianAlgorithm alloc] init];
@@ -30,7 +47,7 @@ KRHebbian ( Hebbian ) is one of learning rules of adjusting weight in neural-net
     NSLog(@"( Hebbian Retults ) Finds next Weights : %@", _krHebbian.deltaWeights);
 }
 
-//Transpose the Matrix
+//轉置矩陣
 -(void)transposeMatrix
 {
     NSMutableArray *row1 = [NSMutableArray arrayWithObjects:@"1",@"2",@"3", nil];
@@ -44,13 +61,6 @@ KRHebbian ( Hebbian ) is one of learning rules of adjusting weight in neural-net
     NSMutableArray *_transposedMatrix = [_krHebbian transposeMatrix:rows];
     NSLog(@"_transposedMatrix : %@", _transposedMatrix);
 }
-```
 
-## Version
 
-V1.0
-
-## LICENSE
-
-MIT.
-
+@end
