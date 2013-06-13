@@ -44,7 +44,7 @@
     [_krHebbian transposeWeights];
     [_krHebbian runHebbian];
     
-    NSLog(@"( Hebbian Retults ) Finds next Weights : %@", _krHebbian.deltaWeights);
+    NSLog(@"( Hebbian Retults ) Adjusts next Weights : %@", _krHebbian.deltaWeights);
 }
 
 //轉置矩陣

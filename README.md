@@ -29,7 +29,7 @@ KRHebbian ( Hebbian ) is one of learning rules of adjusting weight in neural-net
     [_krHebbian transposeWeights];
     [_krHebbian runHebbian];
     
-    NSLog(@"( Hebbian Retults ) Finds next Weights : %@", _krHebbian.deltaWeights);
+    NSLog(@"( Hebbian Retults ) Adjusts next Weights : %@", _krHebbian.deltaWeights);
 }
 
 //Transpose the Matrix
