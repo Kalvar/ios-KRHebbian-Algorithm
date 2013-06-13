@@ -5,6 +5,8 @@ KRHebbian ( Hebbian ) is one of learning rules of adjusting weight in neural-net
 ## How To Get Started
 
 ``` objective-c
+#import "KRHebbianAlgorithm.h"
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
