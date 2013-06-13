@@ -1,6 +1,6 @@
 ## What is it ?
 
-KRHebbian ( Hebbian ) is one of learning rules of adjusting weight in neural-network. If you wanna adjust the algorithms of neurl-network ( Ex : BPN ), that you can use this method to adjust the weight everytime.
+KRHebbian ( Hebbian ) is one of learning rules of adjusting weight in neural-network. If you wanna adjust weight in the algorithms of neurl-network ( Ex : BPN ), that you can use this method to adjust the weight everytime.
 
 ## How To Get Started
 
