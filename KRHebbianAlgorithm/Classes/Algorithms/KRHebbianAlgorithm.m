@@ -146,7 +146,7 @@
  *
  *     @[ @[1], @[2], @[3] ] 
  *
- *   - _multiplicandMatrix 被乘數 (  )
+ *   - _multiplicandMatrix 被乘數
  *
  *     @[4, 5, 6]
  *
