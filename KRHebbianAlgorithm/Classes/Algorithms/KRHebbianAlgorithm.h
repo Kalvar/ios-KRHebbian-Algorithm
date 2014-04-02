@@ -3,7 +3,7 @@
 //  KRHebbianAlgorithm
 //
 //  Created by Kalvar ( ilovekalvar@gmail.com ) on 13/6/13.
-//  Copyright (c) 2013年 Kuo-Ming Lin. All rights reserved.
+//  Copyright (c) 2013 - 2014年 Kuo-Ming Lin. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -25,12 +25,9 @@
 @property (nonatomic, strong) NSArray *params;
 @property (nonatomic, strong) NSMutableArray *deltaWeights;
 
++(instancetype)sharedAlgorithm;
 -(NSMutableArray *)transposeMatrix:(NSArray *)_matrix;
--(double)sumTransposedMatrix:(NSArray *)_transposedMatrix multiplyMatrix:(NSArray *)_multiplicandMatrix;
--(NSMutableArray *)weightMatrix:(NSArray *)_weightMatrix plusMatrix:(NSArray *)_plusMatrix theMark:(double)_mark;
--(NSInteger)sgn:(double)_sgnValue;
 -(void)transposeWeights;
--(NSMutableArray *)runHebbian;
-
+-(NSMutableArray *)training;
 
 @end

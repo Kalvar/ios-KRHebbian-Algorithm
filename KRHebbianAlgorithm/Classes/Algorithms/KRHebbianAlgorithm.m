@@ -3,7 +3,7 @@
 //  KRHebbianAlgorithm
 //
 //  Created by Kalvar ( ilovekalvar@gmail.com ) on 13/6/13.
-//  Copyright (c) 2013年 Kuo-Ming Lin. All rights reserved.
+//  Copyright (c) 2013 - 2014年 Kuo-Ming Lin. All rights reserved.
 //
 
 #import "KRHebbianAlgorithm.h"
@@ -18,8 +18,6 @@
 @interface KRHebbianAlgorithm (fixPrivate)
 
 -(void)_initWithVars;
--(NSInteger)_findFOfNet;
--(NSMutableArray *)_findNextDeltaWeightsWithFOfNet:(NSInteger)_fOfNet;
 
 @end
 
@@ -34,6 +32,118 @@
     self._transposedWeights = [NSMutableArray arrayWithCapacity:0];
 }
 
+@end
+
+@interface KRHebbianAlgorithm (fixMatrixes)
+
+-(double)sumTransposedMatrix:(NSArray *)_transposedMatrix multiplyMatrix:(NSArray *)_multiplicandMatrix;
+-(NSMutableArray *)weightMatrix:(NSArray *)_weightMatrix plusMatrix:(NSArray *)_plusMatrix theMark:(double)_mark;
+-(NSInteger)sgn:(double)_sgnValue;
+
+@end
+
+@implementation KRHebbianAlgorithm (fixMatrixes)
+/*
+ * @ 累加( 轉置後的矩陣乘以另一個未轉置矩陣 ) ( 直 1 維 x 橫 1 維 )
+ *
+ *   - 赫賓是 1 維 x 1 維 ( 不需考慮 N 維 )
+ *
+ *   - 兩個矩陣必須滿足 A 矩陣的行數等於 B 矩陣的列數才可以相乘
+ *
+ *   - _multiplierMatrix   乘數 ( 轉置後的矩陣 )
+ *
+ *     @[ @[1], @[2], @[3] ]
+ *
+ *   - _multiplicandMatrix 被乘數
+ *
+ *     @[4, 5, 6]
+ *
+ */
+-(double)sumTransposedMatrix:(NSArray *)_transposedMatrix multiplyMatrix:(NSArray *)_multiplicandMatrix
+{
+    NSUInteger _transposedCount = 1; //[_transposedMatrix count];
+    if( [[_transposedMatrix objectAtIndex:0] isKindOfClass:[NSArray class]] )
+    {
+        _transposedCount = [[_transposedMatrix objectAtIndex:0] count];
+    }
+    NSUInteger _multiplicandCount = [_multiplicandMatrix count];
+    double _sum = 0.0f;
+    //轉置矩陣的長度
+    for( int i=0; i<_transposedCount; i++ )
+    {
+        //被乘矩陣的長度
+        for( int j=0; j<_multiplicandCount; j++ )
+        {
+            //NSLog(@"i = %i, j = %i", i, j);
+            //避免 Exception for Crash
+            if( j > _transposedCount )
+            {
+                break;
+            }
+            double _transposedValue   = [[[_transposedMatrix objectAtIndex:j] objectAtIndex:i] doubleValue];
+            double _multiplicandValue = [[_multiplicandMatrix objectAtIndex:j] doubleValue];
+            //NSLog(@"_transposedValue : %f", _transposedValue);
+            //NSLog(@"_multiplicandValue : %f\n\n", _multiplicandValue);
+            _sum += _transposedValue * _multiplicandValue;
+        }
+    }
+    return _sum;
+}
+
+/*
+ * @ 權重矩陣相加(矩陣一, 矩陣二, 標記)
+ */
+-(NSMutableArray *)weightMatrix:(NSArray *)_weightMatrix plusMatrix:(NSArray *)_plusMatrix theMark:(double)_mark
+{
+    NSMutableArray *_sums   = [NSMutableArray arrayWithCapacity:0];
+    NSUInteger _weightCount = [_weightMatrix count];
+    if( _weightCount < [_plusMatrix count] )
+    {
+        //代表 _weightMatrix 為多維陣列
+        _weightCount = [[_weightMatrix objectAtIndex:0] count];
+    }
+    
+    if( _mark > 0 )
+    {
+        for( int i=0; i<_weightCount; i++ )
+        {
+            double _weightValue = [[[_weightMatrix objectAtIndex:0] objectAtIndex:i] doubleValue];
+            double _matrixValue = [[_plusMatrix objectAtIndex:i] doubleValue];
+            [_sums addObject:[NSString stringWithFormat:@"%lf", ( _weightValue + _matrixValue )]];
+        }
+    }
+    
+    if( _mark < 0 )
+    {
+        for( int i=0; i<_weightCount; i++ )
+        {
+            double _weightValue = [[[_weightMatrix objectAtIndex:0] objectAtIndex:i] doubleValue];
+            double _matrixValue = [[_plusMatrix objectAtIndex:i] doubleValue];
+            [_sums addObject:[NSString stringWithFormat:@"%lf", ( _weightValue - _matrixValue )]];
+        }
+    }
+    
+    return _sums;
+}
+
+/*
+ * @ 求 SGN()
+ */
+-(NSInteger)sgn:(double)_sgnValue
+{
+    return ( _sgnValue >= 0 ) ? 1 : -1;
+}
+
+@end
+
+@interface KRHebbianAlgorithm (fixNets)
+
+-(NSInteger)_findFOfNet;
+-(NSMutableArray *)_findNextDeltaWeightsWithFOfNet:(NSInteger)_fOfNet;
+
+@end
+
+@implementation KRHebbianAlgorithm (fixNets)
 /*
  * @ Step 1. 求出 Net
  * @ Step 2. 求出 sgn()
@@ -65,10 +175,20 @@
 
 @implementation KRHebbianAlgorithm
 
-@synthesize theta   = _theta;
-@synthesize weights = _weights;
-@synthesize params  = _params;
+@synthesize theta        = _theta;
+@synthesize weights      = _weights;
+@synthesize params       = _params;
 @synthesize deltaWeights = _deltaWeights;
+
++(instancetype)sharedAlgorithm
+{
+    static dispatch_once_t pred;
+    static KRHebbianAlgorithm *_object = nil;
+    dispatch_once(&pred, ^{
+        _object = [[KRHebbianAlgorithm alloc] init];
+    });
+    return _object;
+}
 
 -(id)init
 {
@@ -80,7 +200,7 @@
     return self;
 }
 
-#pragma --mark Matrix Methods
+#pragma --mark Public Matrix Methods
 /*
  * @ 轉置矩陣
  *   - 1. 傳入 1 維陣列
@@ -135,97 +255,7 @@
     return _transposedMatrix;
 }
 
-/*
- * @ 累加( 轉置後的矩陣乘以另一個未轉置矩陣 ) ( 直 1 維 x 橫 1 維 )
- *
- *   - 赫賓是 1 維 x 1 維 ( 不需考慮 N 維 )
- *
- *   - 兩個矩陣必須滿足 A 矩陣的行數等於 B 矩陣的列數才可以相乘
- *
- *   - _multiplierMatrix   乘數 ( 轉置後的矩陣 )
- *
- *     @[ @[1], @[2], @[3] ] 
- *
- *   - _multiplicandMatrix 被乘數
- *
- *     @[4, 5, 6]
- *
- */
--(double)sumTransposedMatrix:(NSArray *)_transposedMatrix multiplyMatrix:(NSArray *)_multiplicandMatrix
-{
-    NSUInteger _transposedCount = 1; //[_transposedMatrix count];
-    if( [[_transposedMatrix objectAtIndex:0] isKindOfClass:[NSArray class]] )
-    {
-        _transposedCount = [[_transposedMatrix objectAtIndex:0] count];
-    }
-    NSUInteger _multiplicandCount = [_multiplicandMatrix count];
-    double _sum = 0.0f;
-    //轉置矩陣的長度
-    for( int i=0; i<_transposedCount; i++ )
-    {
-        //被乘矩陣的長度
-        for( int j=0; j<_multiplicandCount; j++ )
-        {
-            //NSLog(@"i = %i, j = %i", i, j);
-            //避免 Exception for Crash
-            if( j > _transposedCount )
-            {
-                break;
-            }
-            double _transposedValue   = [[[_transposedMatrix objectAtIndex:j] objectAtIndex:i] doubleValue];
-            double _multiplicandValue = [[_multiplicandMatrix objectAtIndex:j] doubleValue];
-            //NSLog(@"_transposedValue : %f", _transposedValue);
-            //NSLog(@"_multiplicandValue : %f\n\n", _multiplicandValue);
-            _sum += _transposedValue * _multiplicandValue;
-        }
-    }
-    return _sum;
-}
-
-/*
- * @ 權重矩陣相加(矩陣一, 矩陣二, 標記)
- */
--(NSMutableArray *)weightMatrix:(NSArray *)_weightMatrix plusMatrix:(NSArray *)_plusMatrix theMark:(double)_mark
-{
-    NSMutableArray *_sums   = [NSMutableArray arrayWithCapacity:0];
-    NSUInteger _weightCount = [_weightMatrix count];
-    if( _weightCount < [_plusMatrix count] )
-    {
-        //代表 _weightMatrix 為多維陣列
-        _weightCount = [[_weightMatrix objectAtIndex:0] count];
-    }
-    if( _mark > 0 )
-    {
-        for( int i=0; i<_weightCount; i++ )
-        {
-            double _weightValue = [[[_weightMatrix objectAtIndex:0] objectAtIndex:i] doubleValue];
-            double _matrixValue = [[_plusMatrix objectAtIndex:i] doubleValue];
-            [_sums addObject:[NSString stringWithFormat:@"%lf", ( _weightValue + _matrixValue )]];
-        }
-    }
-    
-    if( _mark < 0 )
-    {
-        for( int i=0; i<_weightCount; i++ )
-        {
-            double _weightValue = [[[_weightMatrix objectAtIndex:0] objectAtIndex:i] doubleValue];
-            double _matrixValue = [[_plusMatrix objectAtIndex:i] doubleValue];
-            [_sums addObject:[NSString stringWithFormat:@"%lf", ( _weightValue - _matrixValue )]];
-        }
-    }
-    
-    return _sums;
-}
-
-/*
- * @ 求 SGN()
- */
--(NSInteger)sgn:(double)_sgnValue
-{
-    return ( _sgnValue >= 0 ) ? 1 : -1;
-}
-
-#pragma --mark Hebbian Algorithm
+#pragma --mark Public Hebbian Algorithm
 /*
  * @ 先轉置原始權重矩陣
  */
@@ -238,8 +268,9 @@
  * @ 再執行 Hebbian 
  *   - 求出 f(net) 並轉換成 sgn
  */
--(NSMutableArray *)runHebbian
+-(NSMutableArray *)training
 {
+    [self transposeWeights];
     self.deltaWeights = [self _findNextDeltaWeightsWithFOfNet:[self _findFOfNet]];
     return _deltaWeights;
 }
