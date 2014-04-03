@@ -19,15 +19,15 @@ KRHebbian ( Hebbian ) is one of learning rules of adjusting weight in neural-net
     //Initial Weights ( W1 )
     NSMutableArray *_weights1 = [NSMutableArray arrayWithObjects:@"0.5",@"0",@"-1", @"1", nil];
     NSMutableArray *_initialWeights = [NSMutableArray arrayWithObject:_weights1];
+    
     //Inputs ( X1 )
     NSMutableArray *_x1 = [NSMutableArray arrayWithObjects:@"0",@"1.5",@"-2", @"1", nil];
-    //
+    
     KRHebbianAlgorithm *_krHebbian = [[KRHebbianAlgorithm alloc] init];
     _krHebbian.theta   = 1.0f;
     _krHebbian.weights = _initialWeights;
     _krHebbian.params  = _x1;
-    [_krHebbian transposeWeights];
-    [_krHebbian runHebbian];
+    [_krHebbian training];
     
     NSLog(@"( Hebbian Retults ) Adjusts next Weights : %@", _krHebbian.deltaWeights);
 }
