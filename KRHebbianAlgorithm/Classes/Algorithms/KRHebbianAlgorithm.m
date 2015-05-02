@@ -223,6 +223,7 @@
         _xCount = [[_matrix objectAtIndex:0] count];
         _yCount = [_matrix count];
     }
+    
     // 1 維陣列
     if( _yCount == 0 )
     {

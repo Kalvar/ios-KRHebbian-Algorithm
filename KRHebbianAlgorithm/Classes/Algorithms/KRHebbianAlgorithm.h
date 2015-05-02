@@ -12,11 +12,11 @@
 {
     //學習速率 ( eta )
     CGFloat theta;
-    //初始權重陣列 ( 未轉矩 )
+    //初始權重陣列 ( 2 維, 未轉矩 )
     NSArray *weights;
-    //初始參數陣列
+    //初始參數陣列 ( 1 維 )
     NSArray *params;
-    //運算完成的新權重
+    //運算完成的新權重 ( 1 維 )
     NSMutableArray *deltaWeights;
 }
 

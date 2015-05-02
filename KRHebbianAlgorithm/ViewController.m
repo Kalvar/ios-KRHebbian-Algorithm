@@ -44,6 +44,7 @@
     _krHebbian.params               = _x1;
     [_krHebbian training];
     
+    //1 維陣列
     NSLog(@"( Hebbian Retults ) Adjusts next Weights : %@", _krHebbian.deltaWeights);
 }
 
