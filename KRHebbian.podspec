@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name         = "KRHebbian"
   s.version      = "1.0"
-  s.summary      = "Clustering and Classification on Machine Learning."
+  s.summary      = "Self learning the adjust weight method on Machine Learning."
   s.description  = <<-DESC
                    KRHebbian is a self-learning algorithm (adjust the weights) in neural network of Machine Learning (自分学習アルゴリズム).
                    DESC
