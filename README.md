@@ -2,6 +2,13 @@
 
 KRHebbian is a self-learning algorithm (adjust the weights) in neural network of Machine Learning (自分学習アルゴリズム).
 
+#### Podfile
+
+```ruby
+platform :ios, '7.0'
+pod "KRHebbian", "~> 1.0"
+```
+
 ## How To Get Started
 
 ``` objective-c
@@ -50,7 +57,7 @@ KRHebbian is a self-learning algorithm (adjust the weights) in neural network of
 
 ## Version
 
-V1.0
+V1.0.1
 
 ## LICENSE
 
