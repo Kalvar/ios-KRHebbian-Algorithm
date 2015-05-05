@@ -1,27 +1,27 @@
 //
-//  KRHebbianAlgorithm.m
-//  KRHebbianAlgorithm
+//  KRHebbian.m
+//  KRHebbian
 //
 //  Created by Kalvar ( ilovekalvar@gmail.com ) on 13/6/13.
 //  Copyright (c) 2013 - 2014年 Kuo-Ming Lin. All rights reserved.
 //
 
-#import "KRHebbianAlgorithm.h"
+#import "KRHebbian.h"
 
-@interface KRHebbianAlgorithm ()
+@interface KRHebbian ()
 
 //轉置後的權重矩陣
 @property (nonatomic, strong) NSMutableArray *_transposedWeights;
 
 @end
 
-@interface KRHebbianAlgorithm (fixPrivate)
+@interface KRHebbian (fixPrivate)
 
 -(void)_initWithVars;
 
 @end
 
-@implementation KRHebbianAlgorithm (fixPrivate)
+@implementation KRHebbian (fixPrivate)
 
 -(void)_initWithVars
 {
@@ -34,7 +34,7 @@
 
 @end
 
-@interface KRHebbianAlgorithm (fixMatrixes)
+@interface KRHebbian (fixMatrixes)
 
 -(double)sumTransposedMatrix:(NSArray *)_transposedMatrix multiplyMatrix:(NSArray *)_multiplicandMatrix;
 -(NSMutableArray *)weightMatrix:(NSArray *)_weightMatrix plusMatrix:(NSArray *)_plusMatrix theMark:(double)_mark;
@@ -42,7 +42,7 @@
 
 @end
 
-@implementation KRHebbianAlgorithm (fixMatrixes)
+@implementation KRHebbian (fixMatrixes)
 /*
  * @ 累加( 轉置後的矩陣乘以另一個未轉置矩陣 ) ( 直 1 維 x 橫 1 維 )
  *
@@ -136,14 +136,14 @@
 
 @end
 
-@interface KRHebbianAlgorithm (fixNets)
+@interface KRHebbian (fixNets)
 
 -(NSInteger)_findFOfNet;
 -(NSMutableArray *)_findNextDeltaWeightsWithFOfNet:(NSInteger)_fOfNet;
 
 @end
 
-@implementation KRHebbianAlgorithm (fixNets)
+@implementation KRHebbian (fixNets)
 /*
  * @ Step 1. 求出 Net
  * @ Step 2. 求出 sgn()
@@ -173,7 +173,7 @@
 
 @end
 
-@implementation KRHebbianAlgorithm
+@implementation KRHebbian
 
 @synthesize theta        = _theta;
 @synthesize weights      = _weights;
@@ -183,9 +183,9 @@
 +(instancetype)sharedAlgorithm
 {
     static dispatch_once_t pred;
-    static KRHebbianAlgorithm *_object = nil;
+    static KRHebbian *_object = nil;
     dispatch_once(&pred, ^{
-        _object = [[KRHebbianAlgorithm alloc] init];
+        _object = [[KRHebbian alloc] init];
     });
     return _object;
 }

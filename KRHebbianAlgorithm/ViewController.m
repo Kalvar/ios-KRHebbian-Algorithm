@@ -1,13 +1,13 @@
 //
 //  ViewController.m
-//  KRHebbianAlgorithm
+//  KRHebbian
 //  
 //  Created by Kalvar ( ilovekalvar@gmail.com ) on 13/6/13.
 //  Copyright (c) 2013 - 2014年 Kuo-Ming Lin. All rights reserved.
 //
 
 #import "ViewController.h"
-#import "KRHebbianAlgorithm.h"
+#import "KRHebbian.h"
 
 @interface ViewController ()
 
@@ -38,7 +38,7 @@
     //輸入 X1 向量 ( Y 向 )
     NSMutableArray *_x1             = [NSMutableArray arrayWithObjects:@"0", @"1.5", @"-2", @"1", nil];
     
-    KRHebbianAlgorithm *_krHebbian  = [KRHebbianAlgorithm sharedAlgorithm];
+    KRHebbian *_krHebbian  = [KRHebbian sharedAlgorithm];
     _krHebbian.theta                = 1.0f;
     _krHebbian.weights              = _initialWeights;
     _krHebbian.params               = _x1;
@@ -56,7 +56,7 @@
     NSMutableArray *row3 = [NSMutableArray arrayWithObjects:@"7", @"8", @"9", nil];
     NSMutableArray *rows = [NSMutableArray arrayWithObjects:row1, row2, row3, nil];
     
-    KRHebbianAlgorithm *_krHebbian    = [KRHebbianAlgorithm sharedAlgorithm];
+    KRHebbian *_krHebbian    = [KRHebbian sharedAlgorithm];
     NSMutableArray *_transposedMatrix = [_krHebbian transposeMatrix:rows];
     
     NSLog(@"_transposedMatrix : %@", _transposedMatrix);

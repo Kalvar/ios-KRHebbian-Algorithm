@@ -18,7 +18,7 @@
 		8EFFAE931769BF2F008C8ECC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EFFAE921769BF2F008C8ECC /* Default-568h@2x.png */; };
 		8EFFAE961769BF2F008C8ECC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EFFAE951769BF2F008C8ECC /* ViewController.m */; };
 		8EFFAE991769BF2F008C8ECC /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EFFAE971769BF2F008C8ECC /* ViewController.xib */; };
-		8EFFAEA31769BF4E008C8ECC /* KRHebbianAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EFFAEA21769BF4E008C8ECC /* KRHebbianAlgorithm.m */; };
+		8EFFAEA31769BF4E008C8ECC /* KRHebbian.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EFFAEA21769BF4E008C8ECC /* KRHebbian.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,8 +38,8 @@
 		8EFFAE941769BF2F008C8ECC /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		8EFFAE951769BF2F008C8ECC /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		8EFFAE981769BF2F008C8ECC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
-		8EFFAEA11769BF4E008C8ECC /* KRHebbianAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRHebbianAlgorithm.h; sourceTree = "<group>"; };
-		8EFFAEA21769BF4E008C8ECC /* KRHebbianAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRHebbianAlgorithm.m; sourceTree = "<group>"; };
+		8EFFAEA11769BF4E008C8ECC /* KRHebbian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRHebbian.h; sourceTree = "<group>"; };
+		8EFFAEA21769BF4E008C8ECC /* KRHebbian.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRHebbian.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,8 +124,8 @@
 		8EFFAEA01769BF4E008C8ECC /* Algorithms */ = {
 			isa = PBXGroup;
 			children = (
-				8EFFAEA11769BF4E008C8ECC /* KRHebbianAlgorithm.h */,
-				8EFFAEA21769BF4E008C8ECC /* KRHebbianAlgorithm.m */,
+				8EFFAEA11769BF4E008C8ECC /* KRHebbian.h */,
+				8EFFAEA21769BF4E008C8ECC /* KRHebbian.m */,
 			);
 			path = Algorithms;
 			sourceTree = "<group>";
@@ -199,7 +199,7 @@
 				8EFFAE891769BF2F008C8ECC /* main.m in Sources */,
 				8EFFAE8D1769BF2F008C8ECC /* AppDelegate.m in Sources */,
 				8EFFAE961769BF2F008C8ECC /* ViewController.m in Sources */,
-				8EFFAEA31769BF4E008C8ECC /* KRHebbianAlgorithm.m in Sources */,
+				8EFFAEA31769BF4E008C8ECC /* KRHebbian.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,6 +322,7 @@
 				8EFFAE9E1769BF2F008C8ECC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
