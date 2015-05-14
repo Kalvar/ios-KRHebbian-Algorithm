@@ -1,6 +1,6 @@
 ## What is it ?
 
-KRHebbian is a self-learning algorithm (adjust the weights) in neural network of Machine Learning (自分学習アルゴリズム).
+KRHebbian is a non-supervisor and self-learning algorithm (adjust the weights) in neural network of Machine Learning (自分学習アルゴリズム).
 
 #### Podfile
 
