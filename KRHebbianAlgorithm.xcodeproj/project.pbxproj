@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E7D0B831B936AE8003C6C50 /* KRHebbian.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D0B821B936AE8003C6C50 /* KRHebbian.m */; };
 		8EFFAE7D1769BF2F008C8ECC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EFFAE7C1769BF2F008C8ECC /* UIKit.framework */; };
 		8EFFAE7F1769BF2F008C8ECC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EFFAE7E1769BF2F008C8ECC /* Foundation.framework */; };
 		8EFFAE811769BF2F008C8ECC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EFFAE801769BF2F008C8ECC /* CoreGraphics.framework */; };
@@ -18,10 +19,11 @@
 		8EFFAE931769BF2F008C8ECC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EFFAE921769BF2F008C8ECC /* Default-568h@2x.png */; };
 		8EFFAE961769BF2F008C8ECC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EFFAE951769BF2F008C8ECC /* ViewController.m */; };
 		8EFFAE991769BF2F008C8ECC /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EFFAE971769BF2F008C8ECC /* ViewController.xib */; };
-		8EFFAEA31769BF4E008C8ECC /* KRHebbian.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EFFAEA21769BF4E008C8ECC /* KRHebbian.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8E7D0B811B936AE8003C6C50 /* KRHebbian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRHebbian.h; sourceTree = "<group>"; };
+		8E7D0B821B936AE8003C6C50 /* KRHebbian.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRHebbian.m; sourceTree = "<group>"; };
 		8EFFAE791769BF2F008C8ECC /* KRHebbianAlgorithm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KRHebbianAlgorithm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EFFAE7C1769BF2F008C8ECC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8EFFAE7E1769BF2F008C8ECC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -38,8 +40,6 @@
 		8EFFAE941769BF2F008C8ECC /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		8EFFAE951769BF2F008C8ECC /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		8EFFAE981769BF2F008C8ECC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
-		8EFFAEA11769BF4E008C8ECC /* KRHebbian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRHebbian.h; sourceTree = "<group>"; };
-		8EFFAEA21769BF4E008C8ECC /* KRHebbian.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRHebbian.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,10 +56,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8E7D0B801B936AE8003C6C50 /* KRHebbian */ = {
+			isa = PBXGroup;
+			children = (
+				8E7D0B811B936AE8003C6C50 /* KRHebbian.h */,
+				8E7D0B821B936AE8003C6C50 /* KRHebbian.m */,
+			);
+			path = KRHebbian;
+			sourceTree = "<group>";
+		};
 		8EFFAE701769BF2F008C8ECC = {
 			isa = PBXGroup;
 			children = (
-				8EFFAE9F1769BF4E008C8ECC /* Classes */,
+				8E7D0B801B936AE8003C6C50 /* KRHebbian */,
 				8EFFAE821769BF2F008C8ECC /* KRHebbianAlgorithm */,
 				8EFFAE831769BF2F008C8ECC /* Supporting Files */,
 				8EFFAE7B1769BF2F008C8ECC /* Frameworks */,
@@ -110,24 +119,6 @@
 			);
 			name = "Supporting Files";
 			path = KRHebbianAlgorithm;
-			sourceTree = "<group>";
-		};
-		8EFFAE9F1769BF4E008C8ECC /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				8EFFAEA01769BF4E008C8ECC /* Algorithms */,
-			);
-			name = Classes;
-			path = KRHebbianAlgorithm/Classes;
-			sourceTree = "<group>";
-		};
-		8EFFAEA01769BF4E008C8ECC /* Algorithms */ = {
-			isa = PBXGroup;
-			children = (
-				8EFFAEA11769BF4E008C8ECC /* KRHebbian.h */,
-				8EFFAEA21769BF4E008C8ECC /* KRHebbian.m */,
-			);
-			path = Algorithms;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,10 +187,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E7D0B831B936AE8003C6C50 /* KRHebbian.m in Sources */,
 				8EFFAE891769BF2F008C8ECC /* main.m in Sources */,
 				8EFFAE8D1769BF2F008C8ECC /* AppDelegate.m in Sources */,
 				8EFFAE961769BF2F008C8ECC /* ViewController.m in Sources */,
-				8EFFAEA31769BF4E008C8ECC /* KRHebbian.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

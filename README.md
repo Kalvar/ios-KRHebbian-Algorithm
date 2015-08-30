@@ -6,7 +6,7 @@ KRHebbian is a non-supervisor and self-learning algorithm (adjust the weights) i
 
 ```ruby
 platform :ios, '7.0'
-pod "KRHebbian", "~> 1.0"
+pod "KRHebbian", "~> 1.0.2"
 ```
 
 ## How To Get Started
@@ -57,7 +57,7 @@ pod "KRHebbian", "~> 1.0"
 
 ## Version
 
-V1.0.1
+V1.0.2
 
 ## LICENSE
 

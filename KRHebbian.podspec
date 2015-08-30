@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "KRHebbian"
-  s.version      = "1.0.1"
+  s.version      = "1.0.2"
   s.summary      = "Self learning the adjust weight method on Machine Learning."
   s.description  = <<-DESC
                    KRHebbian is a self-learning algorithm (adjust the weights) in neural network of Machine Learning (自分学習アルゴリズム).
@@ -13,6 +13,6 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '6.0'
   s.requires_arc = true
   s.public_header_files = 'KRHebbian/*.h'
-  s.source_files = 'KRHebbian/KRHebbian.h'
+  s.source_files = 'KRHebbian/*.{h,m}'
   s.frameworks   = 'Foundation'
 end 
