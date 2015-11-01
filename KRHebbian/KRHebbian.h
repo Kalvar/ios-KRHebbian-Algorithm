@@ -8,26 +8,28 @@
 
 #import <Foundation/Foundation.h>
 
-@interface KRHebbian : NSObject
-{
-    //學習速率 ( eta )
-    CGFloat theta;
-    //初始權重陣列 ( 2 維, 未轉矩 )
-    NSArray *weights;
-    //初始參數陣列 ( 1 維 )
-    NSArray *params;
-    //運算完成的新權重 ( 1 維 )
-    NSMutableArray *deltaWeights;
-}
+typedef void(^KRHebbianCompletion)(BOOL success, NSArray *weights, NSInteger totalIteration);
+typedef void(^KRHebbianIteration)(NSInteger iteration, NSArray *weights);
 
-@property (nonatomic, assign) CGFloat theta;
-@property (nonatomic, strong) NSArray *weights;
-@property (nonatomic, strong) NSArray *params;
-@property (nonatomic, strong) NSMutableArray *deltaWeights;
+@interface KRHebbian : NSObject
+
+@property (nonatomic, strong) NSMutableArray *patterns;
+@property (nonatomic, strong) NSMutableArray *weights;
+@property (nonatomic, assign) CGFloat learningRate;
+@property (nonatomic, assign) NSInteger maxIteration;
+
+@property (nonatomic, copy) KRHebbianCompletion trainingCompletion;
+@property (nonatomic, copy) KRHebbianIteration trainingIteraion;
 
 +(instancetype)sharedAlgorithm;
--(NSMutableArray *)transposeMatrix:(NSArray *)_matrix;
--(void)transposeWeights;
--(NSMutableArray *)training;
+-(instancetype)init;
+
+-(void)addPatterns:(NSArray *)_inputs;
+-(void)initializeWeights:(NSArray *)_initWeights;
+-(void)training;
+-(void)trainingWithCompletion:(KRHebbianCompletion)_completion;
+
+-(void)setTrainingCompletion:(KRHebbianCompletion)_block;
+-(void)setTrainingIteraion:(KRHebbianIteration)_block;
 
 @end
