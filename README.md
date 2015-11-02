@@ -6,7 +6,7 @@ KRHebbian implemented Hebbian algorithm that is a non-supervisor of self-organiz
 
 ```ruby
 platform :ios, '7.0'
-pod "KRHebbian", "~> 1.1.0"
+pod "KRHebbian", "~> 1.2.0"
 ```
 
 ## How To Get Started
@@ -18,9 +18,10 @@ pod "KRHebbian", "~> 1.1.0"
 
 #### Sample
 ``` objective-c
-KRHebbian *_hebbian   = [KRHebbian sharedAlgorithm];
-_hebbian.learningRate = 0.8f;
-_hebbian.maxIteration = 1;
+KRHebbian *_hebbian   	= [KRHebbian sharedAlgorithm];
+_hebbian.activeFunction = KRHebbianActiveFunctionBySgn;  // Tanh() for [-1.0, 1.0], Sgn() for (-1, 1)
+_hebbian.learningRate 	= 0.8f;
+_hebbian.maxIteration 	= 1;
 [_hebbian addPatterns:@[@0.0f, @1.5f, @-2.0f, @1.0f]];   // X1
 [_hebbian addPatterns:@[@-1.5f, @-2.0f, @-0.5f, @1.0f]]; // X2
 [_hebbian initializeWeights:@[@0.5f, @0.0f, @-1.0f, @1.0f]];
@@ -34,7 +35,7 @@ _hebbian.maxIteration = 1;
 
 ## Version
 
-V1.1.0
+V1.2.0
 
 ## LICENSE
 

@@ -14,13 +14,18 @@
 
 @end
 
-@implementation KRHebbian (fixNets)
-/*
- * @ 求 SGN()
- */
--(NSInteger)_sgn:(double)_sgnValue
+@implementation KRHebbian (fixHebbian)
+
+// Tanh() which scope is [-1.0, 1.0]
+-(double)_fOfTanh:(float)_x
 {
-    return ( _sgnValue >= 0.0f ) ? 1 : -1;
+    return ( 2.0f / ( 1.0f + pow(M_E, (-2.0f * _x)) ) ) - 1.0f;
+}
+
+// SGN() which scope is (-1, 1) or (0, 1)
+-(float)_sgn:(double)_sgnValue
+{
+    return ( _sgnValue >= 0.0f ) ? 1.0f : -1.0f;
 }
 
 /*
@@ -30,16 +35,27 @@
  * @ 回傳 sgn()
  *
  */
--(NSInteger)_fOfNetWithInputs:(NSArray *)_inputs
+-(double)_fOfNetWithInputs:(NSArray *)_inputs
 {
-    double _sum      = 0.0f;
+    float _sum       = 0.0f;
     NSInteger _index = 0;
     for( NSNumber *_xValue in _inputs )
     {
         _sum += [_xValue floatValue] * [[self.weights objectAtIndex:_index] floatValue];
         ++_index;
     }
-    return [self _sgn:_sum];
+    
+    double _activatedValue = 0.0f;
+    switch (self.activeFunction)
+    {
+        case KRHebbianActiveFunctionByTanh:
+            _activatedValue = [self _fOfTanh:_sum];
+            break;
+        default:
+            _activatedValue = [self _sgn:_sum];
+            break;
+    }
+    return _activatedValue;
 }
 
 /*
@@ -49,14 +65,14 @@
 {
     NSArray *_weights           = self.weights;
     float _learningRate         = self.learningRate;
-    float _netOutput            = [self _fOfNetWithInputs:_inputs];
+    double _netOutput           = [self _fOfNetWithInputs:_inputs];
     NSMutableArray *_newWeights = [NSMutableArray new];
     NSInteger _index            = 0;
     for( NSNumber *_weightValue in _weights )
     {
-        float _deltaWeight  = ( _learningRate * _netOutput * [[_inputs objectAtIndex:_index] floatValue] );
-        float _newWeight    = [_weightValue floatValue] + _deltaWeight;
-        [_newWeights addObject:[NSNumber numberWithFloat:_newWeight]];
+        double _deltaWeight = ( _learningRate * _netOutput * [[_inputs objectAtIndex:_index] doubleValue] );
+        double _newWeight   = [_weightValue floatValue] + _deltaWeight;
+        [_newWeights addObject:[NSNumber numberWithDouble:_newWeight]];
         ++_index;
     }
     [self.weights removeAllObjects];
@@ -82,12 +98,14 @@
     self = [super init];
     if( self )
     {
-        _learningRate = 0.5f;
-        _weights      = [NSMutableArray new];
-        _patterns     = [NSMutableArray new];
+        _learningRate   = 0.5f;
+        _weights        = [NSMutableArray new];
+        _patterns       = [NSMutableArray new];
         
-        _iteration    = 0;
-        _maxIteration = 1;
+        _iteration      = 0;
+        _maxIteration   = 1;
+        
+        _activeFunction = KRHebbianActiveFunctionBySgn;
     }
     return self;
 }

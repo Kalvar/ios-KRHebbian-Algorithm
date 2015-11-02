@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum KRHebbianActiveFunctions
+{
+    KRHebbianActiveFunctionBySgn  = 0,
+    KRHebbianActiveFunctionByTanh
+}KRHebbianActiveFunctions;
+
 typedef void(^KRHebbianCompletion)(BOOL success, NSArray *weights, NSInteger totalIteration);
 typedef void(^KRHebbianIteration)(NSInteger iteration, NSArray *weights);
 
@@ -17,6 +23,8 @@ typedef void(^KRHebbianIteration)(NSInteger iteration, NSArray *weights);
 @property (nonatomic, strong) NSMutableArray *weights;
 @property (nonatomic, assign) CGFloat learningRate;
 @property (nonatomic, assign) NSInteger maxIteration;
+
+@property (nonatomic, assign) KRHebbianActiveFunctions activeFunction;
 
 @property (nonatomic, copy) KRHebbianCompletion trainingCompletion;
 @property (nonatomic, copy) KRHebbianIteration trainingIteraion;
