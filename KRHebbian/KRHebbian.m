@@ -11,6 +11,8 @@
 @interface KRHebbian ()
 
 @property (nonatomic, assign) NSInteger iteration;
+@property (nonatomic, assign) float lastDeltaSummation; // 上一次的權重總變化量
+@property (nonatomic, assign) float deltaSummation;     // 當前的權重總給化量
 
 @end
 
@@ -59,7 +61,7 @@
 }
 
 /*
- * @ Step 3. 求 delta W (下一節點之權重值)
+ * @ Step 3. 求 New Weights
  */
 -(void)_turningWeightsByInputs:(NSArray *)_inputs
 {
@@ -70,10 +72,11 @@
     NSInteger _index            = 0;
     for( NSNumber *_weightValue in _weights )
     {
-        double _deltaWeight = ( _learningRate * _netOutput * [[_inputs objectAtIndex:_index] doubleValue] );
-        double _newWeight   = [_weightValue floatValue] + _deltaWeight;
+        double _deltaWeight  = ( _learningRate * _netOutput * [[_inputs objectAtIndex:_index] doubleValue] );
+        double _newWeight    = [_weightValue floatValue] + _deltaWeight;
         [_newWeights addObject:[NSNumber numberWithDouble:_newWeight]];
         ++_index;
+        self.deltaSummation += fabs(_deltaWeight);
     }
     [self.weights removeAllObjects];
     [self.weights addObjectsFromArray:_newWeights];
@@ -98,14 +101,16 @@
     self = [super init];
     if( self )
     {
-        _learningRate   = 0.5f;
-        _weights        = [NSMutableArray new];
-        _patterns       = [NSMutableArray new];
+        _learningRate     = 0.5f;
+        _weights          = [NSMutableArray new];
+        _patterns         = [NSMutableArray new];
         
-        _iteration      = 0;
-        _maxIteration   = 1;
+        _iteration        = 0;
+        _maxIteration     = 1;
+        _convergenceValue = 0.0f;
         
-        _activeFunction = KRHebbianActiveFunctionBySgn;
+        _activeFunction   = KRHebbianActiveFunctionBySgn;
+        _deltaSummation   = 0.0f;
     }
     return self;
 }
@@ -127,13 +132,20 @@
 
 -(void)training
 {
+    _lastDeltaSummation = _deltaSummation;
+    _deltaSummation     = 0.0f;
     ++_iteration;
     for( NSArray *_inputs in _patterns )
     {
         [self _turningWeightsByInputs:_inputs];
     }
     
-    if( _iteration >= _maxIteration )
+    /*
+     * @ 收斂方法 (擇一)
+     *   - 1. 迭代數達到最大數 (文獻推薦 1 迭代)
+     *   - 2. 前後迭代的權重變化量相減，小於等於收斂值或為 0 (Optimized method by me, but not usefully in normal cases)
+     */
+    if( _iteration >= _maxIteration || fabsf(_deltaSummation - _lastDeltaSummation) <= _convergenceValue )
     {
         if( nil != _trainingCompletion )
         {

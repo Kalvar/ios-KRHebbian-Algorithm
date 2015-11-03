@@ -21,8 +21,9 @@ typedef void(^KRHebbianIteration)(NSInteger iteration, NSArray *weights);
 
 @property (nonatomic, strong) NSMutableArray *patterns;
 @property (nonatomic, strong) NSMutableArray *weights;
-@property (nonatomic, assign) CGFloat learningRate;
+@property (nonatomic, assign) float learningRate;
 @property (nonatomic, assign) NSInteger maxIteration;
+@property (nonatomic, assign) float convergenceValue;
 
 @property (nonatomic, assign) KRHebbianActiveFunctions activeFunction;
 
