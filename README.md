@@ -6,7 +6,7 @@ KRHebbian implemented Hebbian algorithm that is a non-supervisor of self-organiz
 
 ```ruby
 platform :ios, '7.0'
-pod "KRHebbian", "~> 1.2.0"
+pod "KRHebbian", "~> 1.2.1"
 ```
 
 ## How To Get Started
@@ -35,7 +35,7 @@ _hebbian.maxIteration 	= 1;
 
 ## Version
 
-V1.2.0
+V1.2.1
 
 ## LICENSE
 
