@@ -25,7 +25,7 @@
 }
 
 // SGN() which scope is (-1, 1) or (0, 1)
--(float)_sgn:(double)_sgnValue
+-(float)_fOfSgn:(double)_sgnValue
 {
     return ( _sgnValue >= 0.0f ) ? 1.0f : -1.0f;
 }
@@ -54,7 +54,7 @@
             _activatedValue = [self _fOfTanh:_sum];
             break;
         default:
-            _activatedValue = [self _sgn:_sum];
+            _activatedValue = [self _fOfSgn:_sum];
             break;
     }
     return _activatedValue;
