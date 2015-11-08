@@ -14,13 +14,15 @@ typedef enum KRHebbianActiveFunctions
     KRHebbianActiveFunctionByTanh
 }KRHebbianActiveFunctions;
 
-typedef void(^KRHebbianCompletion)(BOOL success, NSArray *weights, NSInteger totalIteration);
-typedef void(^KRHebbianIteration)(NSInteger iteration, NSArray *weights);
+typedef void(^KRHebbianCompletion)(BOOL success, NSArray *outputs, NSArray *weights, NSInteger totalIteration);
+typedef void(^KRHebbianIteration)(NSInteger iteration, NSArray *outputs, NSArray *weights);
+typedef void(^KRHebbianDirectOutput)(NSArray *outputs, NSArray *weights);
 
 @interface KRHebbian : NSObject
 
 @property (nonatomic, strong) NSMutableArray *patterns;
 @property (nonatomic, strong) NSMutableArray *weights;
+@property (nonatomic, strong) NSMutableArray *outputs;
 @property (nonatomic, assign) float learningRate;
 @property (nonatomic, assign) NSInteger maxIteration;
 @property (nonatomic, assign) float convergenceValue;
@@ -37,6 +39,8 @@ typedef void(^KRHebbianIteration)(NSInteger iteration, NSArray *weights);
 -(void)initializeWeights:(NSArray *)_initWeights;
 -(void)training;
 -(void)trainingWithCompletion:(KRHebbianCompletion)_completion;
+-(void)directOutputAtInputs:(NSArray *)_inputs completion:(KRHebbianDirectOutput)_completion;
+-(void)reset;
 
 -(void)setTrainingCompletion:(KRHebbianCompletion)_block;
 -(void)setTrainingIteraion:(KRHebbianIteration)_block;

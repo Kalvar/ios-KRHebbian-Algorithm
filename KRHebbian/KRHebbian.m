@@ -8,6 +8,12 @@
 
 #import "KRHebbian.h"
 
+#define DEFAULT_LEARNING_RATE     0.5f
+#define DEFAULT_ITERATION         0
+#define DEFAULT_MAX_ITERATION     1
+#define DEFAULT_CONVERGENCE_VALUE 0.0f
+#define DEFAULT_DELTA_SUMMATION   0.0f
+
 @interface KRHebbian ()
 
 @property (nonatomic, assign) NSInteger iteration;
@@ -39,13 +45,15 @@
  */
 -(double)_fOfNetWithInputs:(NSArray *)_inputs
 {
-    float _sum       = 0.0f;
+    double _sum      = 0.0f;
     NSInteger _index = 0;
     for( NSNumber *_xValue in _inputs )
     {
-        _sum += [_xValue floatValue] * [[self.weights objectAtIndex:_index] floatValue];
+        _sum += [_xValue doubleValue] * [[self.weights objectAtIndex:_index] doubleValue];
         ++_index;
     }
+    
+    NSLog(@"_sum : %lf", _sum);
     
     double _activatedValue = 0.0f;
     switch (self.activeFunction)
@@ -63,11 +71,10 @@
 /*
  * @ Step 3. 求 New Weights
  */
--(void)_turningWeightsByInputs:(NSArray *)_inputs
+-(void)_turningWeightsByInputs:(NSArray *)_inputs netOutput:(double)_netOutput
 {
     NSArray *_weights           = self.weights;
     float _learningRate         = self.learningRate;
-    double _netOutput           = [self _fOfNetWithInputs:_inputs];
     NSMutableArray *_newWeights = [NSMutableArray new];
     NSInteger _index            = 0;
     for( NSNumber *_weightValue in _weights )
@@ -80,6 +87,20 @@
     }
     [self.weights removeAllObjects];
     [self.weights addObjectsFromArray:_newWeights];
+}
+
+// Start in calculate net outputs and tune the weights (if needed)
+-(void)_doTrainAndDoesWannaTuneWeights:(BOOL)_goTuning
+{
+    for( NSArray *_inputs in self.patterns )
+    {
+        double _netOutput = [self _fOfNetWithInputs:_inputs];
+        [self.outputs addObject:[NSNumber numberWithDouble:_netOutput]];
+        if( _goTuning )
+        {
+            [self _turningWeightsByInputs:_inputs netOutput:_netOutput];
+        }
+    }
 }
 
 @end
@@ -101,16 +122,17 @@
     self = [super init];
     if( self )
     {
-        _learningRate     = 0.5f;
+        _learningRate     = DEFAULT_LEARNING_RATE;
         _weights          = [NSMutableArray new];
         _patterns         = [NSMutableArray new];
+        _outputs          = [NSMutableArray new];
         
-        _iteration        = 0;
-        _maxIteration     = 1;
-        _convergenceValue = 0.0f;
+        _iteration        = DEFAULT_ITERATION;
+        _maxIteration     = DEFAULT_MAX_ITERATION;
+        _convergenceValue = DEFAULT_CONVERGENCE_VALUE;
         
         _activeFunction   = KRHebbianActiveFunctionBySgn;
-        _deltaSummation   = 0.0f;
+        _deltaSummation   = DEFAULT_DELTA_SUMMATION;
     }
     return self;
 }
@@ -132,13 +154,11 @@
 
 -(void)training
 {
+    [_outputs removeAllObjects];
     _lastDeltaSummation = _deltaSummation;
     _deltaSummation     = 0.0f;
     ++_iteration;
-    for( NSArray *_inputs in _patterns )
-    {
-        [self _turningWeightsByInputs:_inputs];
-    }
+    [self _doTrainAndDoesWannaTuneWeights:YES];
     
     /*
      * @ 收斂方法 (擇一)
@@ -149,14 +169,14 @@
     {
         if( nil != _trainingCompletion )
         {
-            _trainingCompletion(YES, _weights, _iteration);
+            _trainingCompletion(YES, _outputs, _weights, _iteration);
         }
     }
     else
     {
         if( nil != _trainingIteraion )
         {
-            _trainingIteraion(_iteration, _weights);
+            _trainingIteraion(_iteration, _outputs, _weights);
         }
         [self training];
     }
@@ -166,6 +186,25 @@
 {
     _trainingCompletion = _completion;
     [self training];
+}
+
+-(void)directOutputAtInputs:(NSArray *)_inputs completion:(KRHebbianDirectOutput)_completion
+{
+    [self reset];
+    [self addPatterns:_inputs];
+    [self _doTrainAndDoesWannaTuneWeights:NO];
+    if( nil != _completion )
+    {
+        _completion(_outputs, _weights);
+    }
+}
+
+-(void)reset
+{
+    _maxIteration = DEFAULT_MAX_ITERATION;
+    _iteration    = DEFAULT_ITERATION;
+    [_patterns removeAllObjects];
+    [_outputs removeAllObjects];
 }
 
 #pragma --mark Block Setters

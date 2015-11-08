@@ -26,11 +26,17 @@
     [_hebbian addPatterns:@[@0.0f, @1.5f, @-2.0f, @1.0f]];   // X1
     [_hebbian addPatterns:@[@-1.5f, @-2.0f, @-0.5f, @1.0f]]; // X2
     [_hebbian initializeWeights:@[@0.5f, @0.0f, @-1.0f, @1.0f]];
-    [_hebbian setTrainingIteraion:^(NSInteger iteration, NSArray *weights) {
-        NSLog(@"%li iteration = %@", iteration, weights);
+    
+    [_hebbian setTrainingIteraion:^(NSInteger iteration, NSArray *outputs, NSArray *weights) {
+        NSLog(@"Training %li iteration = %@, outputs = %@", iteration, weights, outputs);
     }];
-    [_hebbian trainingWithCompletion:^(BOOL success, NSArray *weights, NSInteger totalIteration) {
-        NSLog(@"%li iteration = %@", totalIteration, weights);
+    
+    [_hebbian trainingWithCompletion:^(BOOL success, NSArray *outputs, NSArray *weights, NSInteger totalIteration) {
+        NSLog(@"Trained %li iteration = %@, outputs = %@", totalIteration, weights, outputs);
+        // Start in verifying
+        [_hebbian directOutputAtInputs:@[@-0.5f, @-1.0f, @-0.2f, @0.5f] completion:^(NSArray *outputs, NSArray *weights) {
+            NSLog(@"Verified weights = %@, outputs = %@", weights, outputs);
+        }];
     }];
 }
 

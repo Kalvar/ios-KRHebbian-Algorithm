@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "KRHebbian"
-  s.version      = "1.2.1"
+  s.version      = "1.3.0"
   s.summary      = "Non-supervisor that Hebbian self-organization learning method in machine learning. (自分学習アルゴリズム)."
   s.description  = <<-DESC
                    KRHebbian implemented Hebbian algorithm that is a non-supervisor of self-organization algorithm of Machine Learning (自分学習アルゴリズム).
